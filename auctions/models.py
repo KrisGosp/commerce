@@ -16,7 +16,7 @@ class Listing(models.Model):
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2)
     is_open = models.BooleanField(default=True)
-    image_url = models.URLField(blank=True)
+    image_url = models.URLField(blank=True, max_length=248)
     category = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ listing.title }}
+{% endblock %}
+
+{% block body %}
+
+    <h2>{{ listing.title }}</h2>
+
+    {% if listing.image_url %}
+        <img src="{{ listing.image_url }}" alt="..." class="img-fluid" />
+    {% else %}
+        <img src="https://via.placeholder.com/600x440" alt="..." class="img-fluid" />
+    {% endif %}
+    
+    <p>{{ listing.description }}</p>
+
+    <p class="badge badge-success">{{ listing.current_price }}</p>
+
+    <p>Created at: <span class="text-muted">{{ listing.created_at }}</span></p>
+
+{% endblock %}
