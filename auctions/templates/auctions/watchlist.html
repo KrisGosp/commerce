@@ -10,15 +10,17 @@
         {% if listings %}
 
             {% for listing in listings %}  
-                <a href="{% url 'listing' listing.id %}">
-                    {% if listing.image_url %}
-                    <img src="{{ listing.image_url }}" alt="">
-                    {% else %}
-                    <img src="https://via.placeholder.com/300x220" alt="">
-                    {% endif %}
-                </a>
-                <p>{{ listing.title }}</p>
-                <p>{{ listing.current_price }}</p>
+                <div class="container">
+                    <a href="{% url 'listing' listing.id %}">
+                        {% if listing.image_url %}
+                        <img src="{{ listing.image_url }}" alt="">
+                        {% else %}
+                        <img src="https://via.placeholder.com/300x220" alt="">
+                        {% endif %}
+                    </a>
+                    <p>{{ listing.title }}</p>
+                    <p>{{ listing.current_price }}</p>
+                </div>
             {% endfor %}
         {% endif %}
     </div>

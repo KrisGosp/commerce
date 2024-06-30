@@ -112,17 +112,30 @@ def watchlist(request):
         listing_id = request.POST["listing_id"]
         user_id = request.user.id
 
+        is_watching = Watchlist.objects.filter(user=user_id, listing=listing_id).exists()
         # Adding listing to watchlist
-        watchlist = Watchlist(
-            user=User.objects.get(id=user_id),
-            listing=Listing.objects.get(id=listing_id)
-        )
-        watchlist.save()
-        return redirect("listing", listing_id=listing_id)
+        if not is_watching:
+            watchlist = Watchlist(
+                user=User.objects.get(id=user_id),
+                listing=Listing.objects.get(id=listing_id)
+            )
+            watchlist.save()
+            return render(request, "auctions/listing.html", {
+                "is_watching": True,
+                "listing": Listing.objects.get(id=listing_id),
+            })
+        else:
+            Watchlist.objects.filter(user=user_id, listing=listing_id).delete()
+            return render(request, "auctions/listing.html", {
+                "is_watching": False,
+                "listing": Listing.objects.get(id=listing_id),
+            })
 
-    watchlist = Watchlist.objects.filter(user=user_id)
+    all_watched = Watchlist.objects.filter(user=request.user.id).values_list('listing_id', flat=True)
+    listings = Listing.objects.filter(id__in=all_watched)
+    print(len(all_watched), "WAAAAAAAAAAAAAAAAAAAAAAAAAA")
     return render(request, "auctions/watchlist.html", {
-        "watchlist": watchlist
+        "listings": listings
     })
 
 def place_bid(request):

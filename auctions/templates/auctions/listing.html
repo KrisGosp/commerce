@@ -22,7 +22,7 @@
                 {% if is_owner %}
                     <form action="{% url 'close' listing.id %}" method="post">
                         {% csrf_token %}
-                        <input class="btn btn-danger" type="submit" value="Delete Listing">
+                        <input class="btn btn-danger" type="submit" value="Close Listing">
                     </form>
                 {% endif %}
             </div>
