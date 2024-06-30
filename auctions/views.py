@@ -138,9 +138,6 @@ def watchlist(request):
                 "listing": Listing.objects.get(id=listing_id),
             })
         else:
-            # if request.path == "/watchlist":
-            #     return redirect("index")
-
             Watchlist.objects.filter(user=user_id, listing=listing_id).delete()
             return render(request, "auctions/listing.html", {
                 "is_watching": False,
@@ -150,6 +147,15 @@ def watchlist(request):
 
     all_watched = Watchlist.objects.filter(user=request.user.id).values_list('listing_id', flat=True)
     listings = Listing.objects.filter(id__in=all_watched)
+    return render(request, "auctions/watchlist.html", {
+        "listings": listings
+    })
+
+def rm_watchlist(request, listing_id):
+    all_watched = Watchlist.objects.filter(user=request.user.id).values_list('listing_id', flat=True)
+    listings = Listing.objects.filter(id__in=all_watched)
+
+    Watchlist.objects.filter(user=request.user.id, listing=listing_id).delete()
     return render(request, "auctions/watchlist.html", {
         "listings": listings
     })
