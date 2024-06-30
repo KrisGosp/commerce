@@ -18,6 +18,13 @@
                 
                 <p>{{ listing.description }}</p>
                 <p>Created at: <span class="text-muted">{{ listing.created_at }}</span></p>
+
+                {% if is_owner %}
+                    <form action="{% url 'close' listing.id %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-danger" type="submit" value="Delete Listing">
+                    </form>
+                {% endif %}
             </div>
             
             <div class="col-md-4">
@@ -29,6 +36,18 @@
                             <input class="form-control" type="number" name="bid_amount" placeholder="Bid amount">
                         </div>
                         <input class="btn btn-primary" type="submit" value="Place Bid">
+                    </form>
+
+                    <form action="{% url 'watchlist' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                        <button type="submit">
+                            {% if is_watching %}
+                                Watching
+                            {% else %}
+                                Add To Watchlist
+                            {% endif %}
+                        </button>
                     </form>
                 {% endif %}
             </div>

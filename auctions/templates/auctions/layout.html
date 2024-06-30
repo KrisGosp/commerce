@@ -15,8 +15,10 @@
   <body>
     <h1>Auctions</h1>
     <div>
-      {% if user.is_authenticated %} Signed in as
-      <strong>{{ user.username }}</strong>. {% else %} Not signed in. 
+      {% if user.is_authenticated %} 
+        Signed in as <strong>{{ user.username }}</strong>. 
+      {% else %} 
+        Not signed in. 
       {% endif %}
     </div>
     <ul class="nav">
@@ -27,6 +29,9 @@
         <a class="nav-link" href="{% url 'create' %}">Create A Listing</a>
       </li>
       {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
       </li>

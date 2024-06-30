@@ -2,10 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required  # Add this line
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import Listing, User
+from .models import Listing, User, Watchlist
 
 @login_required
 def index(request):
@@ -90,14 +90,44 @@ def create_listing(request):
     return render(request, "auctions/create_listing.html")
 
 def listing(request, listing_id):
+    # Check if listing belongs to current user in order to show close button
+    if request.user.id == Listing.objects.get(id=listing_id).user.id:
+        return render(request, "auctions/listing.html", {
+            "listing": Listing.objects.get(id=listing_id),
+            "is_owner": True
+        })
+    
+    # Check if listing is in watchlist of current user
+    if request.user.id == Watchlist.objects.get(listing=listing_id).user.id:
+        return render(request, "auctions/listing.html", {
+            "listing": Listing.objects.get(id=listing_id),
+            "is_watching": True
+        })
     return render(request, "auctions/listing.html", {
         "listing": Listing.objects.get(id=listing_id),
     })
 
 def watchlist(request):
-    pass
-    # return render(request, "auctions/watchlist.html")
+    if request.method == "POST":
+        listing_id = request.POST["listing_id"]
+        user_id = request.user.id
+
+        # Adding listing to watchlist
+        watchlist = Watchlist(
+            user=User.objects.get(id=user_id),
+            listing=Listing.objects.get(id=listing_id)
+        )
+        watchlist.save()
+        return redirect("listing", listing_id=listing_id)
+
+    watchlist = Watchlist.objects.filter(user=user_id)
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": watchlist
+    })
 
 def place_bid(request):
-    pass
-    # return render(request, "auctions/place_bid.html")
+    return render(request, "auctions/index.html")
+
+def close(request, listing_id):
+    Listing.objects.get(id=listing_id).is_open = False
+    return redirect("listing", listing_id=listing_id)
