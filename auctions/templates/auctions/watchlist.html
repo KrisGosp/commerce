@@ -20,6 +20,11 @@
                     </a>
                     <p>{{ listing.title }}</p>
                     <p>{{ listing.current_price }}</p>
+                    <form action="{% url 'watchlist' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                        <input type="submit" value="Remove from watchlist">
+                    </form>
                 </div>
             {% endfor %}
         {% endif %}
