@@ -10,7 +10,7 @@ class User(AbstractUser):
 
 class Listing(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)

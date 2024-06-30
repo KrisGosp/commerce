@@ -72,8 +72,21 @@ def create_listing(request):
         starting_bid = request.POST["starting_bid"]
         image_url = request.POST["image_url"]
         category = request.POST["category"]
-        print(title, description, starting_bid, image_url, category)
-        HttpResponseRedirect(reverse("index"))
+
+        user = request.user.id
+        # Creating and saving new listing
+        new_listing = Listing(
+            user=User.objects.get(id=user),
+            title=title,
+            description=description,
+            starting_bid=starting_bid,
+            current_price=starting_bid,
+            image_url=image_url,
+            category=category
+        )
+        new_listing.save()
+
+        return HttpResponseRedirect(reverse("index"))
     return render(request, "auctions/create_listing.html")
 
 def listing(request, listing_id):
