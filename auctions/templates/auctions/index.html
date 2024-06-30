@@ -4,18 +4,20 @@
 <div class="container mt-3">
   <div class="row">
     {% for listing in listings %}
-    <a href="{% url 'listing' listing.id %}">
+    
       <div class="col-md-4 mb-3">
         <div class="card">
-          {% if listing.image_url %}
-          <img src="{{ listing.image_url }}" class="card-img-top" alt="..." />
-          {% else %}
-          <img
-            src="https://via.placeholder.com/300x220"
-            class="card-img-top"
-            alt="..."
-          />
-          {% endif %}
+          <a href="{% url 'listing' listing.id %}">
+            {% if listing.image_url %}
+              <img src="{{ listing.image_url }}" class="card-img-top" alt="..." />
+            {% else %}
+              <img
+                src="https://via.placeholder.com/300x220"
+                class="card-img-top"
+                alt="..."
+            />
+            {% endif %}
+          </a>
           <div class="card-body">
             <h5 class="card-title">{{ listing.title }}</h5>
             <p class="card-text">{{ listing.description }}</p>
@@ -27,7 +29,6 @@
           </div>
         </div>
       </div>
-    </a>
     {% endfor %}
   </div>
 </div>
