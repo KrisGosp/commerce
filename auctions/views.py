@@ -67,7 +67,13 @@ def register(request):
 
 def create_listing(request):
     if request.method == "POST":
-        pass
+        title = request.POST["title"]
+        description = request.POST["description"]
+        starting_bid = request.POST["starting_bid"]
+        image_url = request.POST["image_url"]
+        category = request.POST["category"]
+        print(title, description, starting_bid, image_url, category)
+        HttpResponseRedirect(reverse("index"))
     return render(request, "auctions/create_listing.html")
 
 def listing(request, listing_id):
