@@ -93,3 +93,11 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html", {
         "listing": Listing.objects.get(id=listing_id),
     })
+
+def watchlist(request):
+    pass
+    # return render(request, "auctions/watchlist.html")
+
+def place_bid(request):
+    pass
+    # return render(request, "auctions/place_bid.html")
