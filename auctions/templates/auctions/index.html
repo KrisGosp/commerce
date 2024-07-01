@@ -6,7 +6,7 @@
 <div class="container mt-3">
   <div class="row">
     {% for listing in listings %}
-    
+      {% if listing.is_open %}
       <div class="col-md-4 mb-3">
         <div class="card">
           <a href="{% url 'listing' listing.id %}">
@@ -31,6 +31,7 @@
           </div>
         </div>
       </div>
+      {% endif %}
     {% endfor %}
   </div>
 </div>

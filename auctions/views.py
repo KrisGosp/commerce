@@ -164,5 +164,7 @@ def place_bid(request):
     return render(request, "auctions/index.html")
 
 def close(request, listing_id):
-    Listing.objects.get(id=listing_id).is_open = False
+    listing = Listing.objects.get(id=listing_id)
+    listing.is_open = False
+    listing.save()
     return redirect("listing", listing_id=listing_id)
