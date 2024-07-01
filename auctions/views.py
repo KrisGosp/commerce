@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import Listing, User, Watchlist
+from .models import Listing, User, Watchlist, Bid
 
 
 def index(request):
@@ -160,7 +160,25 @@ def rm_watchlist(request, listing_id):
         "listings": listings
     })
 
-def place_bid(request):
+def place_bid(request, listing_id):
+    if request.method == "POST":
+        bid = request.POST["bid"]
+        listing = Listing.objects.get(id=listing_id)
+        if float(bid) > listing.current_price:
+            # save listing price update and winner
+            listing.current_price = float(bid)
+            listing.current_winner = request.user
+            listing.save()
+            # save bid
+            new_bid = Bid(
+                user=request.user,
+                listing=listing,
+                amount=bid
+            )
+            new_bid.save()
+
+            return redirect("listing", listing_id=listing_id)
+
     return render(request, "auctions/index.html")
 
 def close(request, listing_id):

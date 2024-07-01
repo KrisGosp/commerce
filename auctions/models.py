@@ -10,11 +10,12 @@ class User(AbstractUser):
 
 class Listing(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
     title = models.CharField(max_length=200)
     description = models.TextField()
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2)
+    current_winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     is_open = models.BooleanField(default=True)
     image_url = models.URLField(blank=True, max_length=248)
     category = models.CharField(max_length=100, blank=True)

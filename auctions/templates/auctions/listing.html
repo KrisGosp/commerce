@@ -33,15 +33,16 @@
                     <form action="{% url 'place_bid' listing.id %}" method="post">
                         {% csrf_token %}
                         <div class="form-group">
-                            <input class="form-control" type="number" name="bid_amount" placeholder="Bid amount">
+                            <input class="form-control" type="number" name="bid" placeholder="Bid amount">
+                            <p class="text-muted font-italic">*Your bid should be at least the current price</p>
                         </div>
-                        <input class="btn btn-primary" type="submit" value="Place Bid">
+                        <input class="btn btn-success" type="submit" value="Place Bid">
                     </form>
 
                     <form action="{% url 'watchlist' %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                        <button type="submit">
+                        <button type="submit" class="btn btn-primary mt-5">
                             {% if is_watching %}
                                 Watching
                             {% else %}
