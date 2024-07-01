@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from .models import Listing, User, Watchlist
 
-@login_required
+
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all()
@@ -112,7 +112,7 @@ def listing(request, listing_id):
         "is_owner": is_owner
     })
 
-
+@login_required
 def watchlist(request):
     if request.method == "POST":
         listing_id = request.POST["listing_id"]
