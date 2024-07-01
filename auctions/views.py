@@ -173,8 +173,9 @@ def place_bid(request, listing_id):
             listing.current_winner = request.user
             listing.save()
             # save bid
+            user = request.user
             new_bid = Bid(
-                user=request.user,
+                user=user,
                 listing=listing,
                 amount=bid
             )
