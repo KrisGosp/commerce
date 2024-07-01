@@ -7,6 +7,22 @@ from django.urls import reverse
 
 from .models import Listing, User, Watchlist, Bid
 
+def check_owner_watching(request, listing_id):
+    is_owner = False
+    is_watching = False
+    if request.user.id == Listing.objects.get(id=listing_id).user.id:
+        is_owner = True
+    else:
+        is_owner = False
+
+# Check if listing is in watchlist of current user
+    if Watchlist.objects.filter(listing=listing_id).exists():
+        if request.user.id == Watchlist.objects.get(listing=listing_id).user.id:
+            is_watching = True
+        else:
+            is_watching = False
+
+    return is_owner, is_watching
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -91,20 +107,7 @@ def create_listing(request):
 
 def listing(request, listing_id):
     # Check if listing belongs to current user in order to show close button
-    is_owner = False
-    is_watching = False
-
-    if request.user.id == Listing.objects.get(id=listing_id).user.id:
-        is_owner = True
-    else:
-        is_owner = False
-
-    # Check if listing is in watchlist of current user
-    if Watchlist.objects.filter(listing=listing_id).exists():
-        if request.user.id == Watchlist.objects.get(listing=listing_id).user.id:
-            is_watching = True
-        else:
-            is_watching = False
+    is_owner, is_watching = check_owner_watching(request, listing_id)
 
     return render(request, "auctions/listing.html", {
         "listing": Listing.objects.get(id=listing_id),
@@ -177,7 +180,12 @@ def place_bid(request, listing_id):
             )
             new_bid.save()
 
-            return redirect("listing", listing_id=listing_id)
+        is_owner, is_watching = check_owner_watching(request, listing_id)
+        return render(request, "auctions/listing.html", {
+            "listing": Listing.objects.get(id=listing_id),
+            "is_watching": is_watching,
+            "is_owner": is_owner
+        })
 
     return render(request, "auctions/index.html")
 
