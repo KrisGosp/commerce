@@ -22,7 +22,12 @@
                 {% if is_owner %}
                     <form action="{% url 'close' listing.id %}" method="post">
                         {% csrf_token %}
-                        <input class="btn btn-danger" type="submit" value="Close Listing">
+                        <input type="hidden" value="Close Listing">
+                        {% if not listing.is_open %}
+                            <button class="btn btn-info">Closed!</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-danger">Close Listing</button>
+                        {% endif %}    
                     </form>
                 {% endif %}
             </div>
@@ -34,6 +39,11 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <input class="form-control" type="number" name="bid" placeholder="Bid amount">
+                            {% if listing.is_open and listing.current_winner == user %}
+                                <span class="text-success font-italic">*You are the highest bidder</span>
+                            {% elif not listing.is_open and listing.current_winner == user %}
+                                <p class="text-success font-bold">You have won this auction!</p>
+                            {% endif %}
                             <p class="text-muted font-italic">*Your bid should be at least the current price</p>
                         </div>
                         <input class="btn btn-success" type="submit" value="Place Bid">
