@@ -34,8 +34,8 @@ class Bid(models.Model):
 
 class Comment(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    listing_id = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

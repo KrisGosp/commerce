@@ -63,8 +63,17 @@
                 {% endif %}
                 <div class="container mt-5 h-50 bg-light">
                     <h3>Comments</h3>
+                        <ul>
+                            {% for comment in listing.comments.all %}
+                                <li>
+                                    <div>
+                                        <p>{{ comment.user }}</p>
+                                        <span>{{ comment.content }}</span>
+                                    </div>
+                                </li> <!-- Assuming the Comment model has a 'text' field -->
+                            {% endfor %}
+                        </ul>
                 </div>
-
             </div>
         </div>
     </div>
