@@ -2,7 +2,7 @@
 {% block title %}Create a listing{% endblock %} 
 
 {% block body %}
-<h1>Create a listing</h1>
+<h2 class="heading">Create a listing</h2>
 
 <form action="{% url 'create' %}" method="post" class="w-50 mx-auto mt-5">
   {% csrf_token %}

@@ -6,11 +6,13 @@
 
 {% block body %}
 
-    <h2>Categories</h2>
-    <ul>
-        {% for category in categories %}
-            <li><a href="{% url 'category' category %}">{{ category }}</a></li>
-        {% endfor %}
-    </ul>
+    <h2 class="heading">Categories</h2>
+    <div class="container">
+        <ul class="list-group">
+            {% for category in categories %}
+                <li class="list-item"><a href="{% url 'category' category %}">{{ category }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 
 {% endblock %}
