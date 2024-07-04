@@ -53,7 +53,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="listing_id" value="{{ listing.id }}">
                         <button type="submit" class="btn btn-primary mt-5">
-                            {% if is_watching %}
+                            {% if listing %}
                                 Watching
                             {% else %}
                                 Add To Watchlist

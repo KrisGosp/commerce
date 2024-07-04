@@ -15,7 +15,7 @@ class Listing(models.Model):
     description = models.TextField()
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2)
-    current_winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None, related_name="winning_bids")
+    current_winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
     is_open = models.BooleanField(default=True)
     image_url = models.URLField(blank=True, max_length=248)
     category = models.CharField(max_length=100, blank=True)
@@ -40,5 +40,5 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Watchlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watchlist")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
