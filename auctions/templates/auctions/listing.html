@@ -63,16 +63,13 @@
                 {% endif %}
                 <div class="container mt-5 h-50 bg-light">
                     <h3>Comments</h3>
-                        <ul>
                             {% for comment in listing.comments.all %}
-                                <li>
-                                    <div>
-                                        <p>{{ comment.user }}</p>
-                                        <span>{{ comment.content }}</span>
+                                    <div class="bg-primary rounded-lg px-2 my-2">
+                                        <p class="m-0 pb-2">{{ comment.user }}</p>
+                                        <p class="m-0 text-white">{{ comment.content }}</p>
+                                        <span class="text-white font-italic fs-2">{{ comment.created_at }}</span>
                                     </div>
-                                </li> <!-- Assuming the Comment model has a 'text' field -->
                             {% endfor %}
-                        </ul>
                 </div>
             </div>
         </div>
