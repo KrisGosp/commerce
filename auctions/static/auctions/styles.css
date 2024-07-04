@@ -1,6 +1,28 @@
+body {
+  background: rgb(193, 221, 255);
+}
+
 .comment_created {
   font-size: smaller;
   text-align: right;
   color: rgb(211, 210, 210);
   font-style: italic;
+}
+
+.auction_price_winner {
+  font-weight: bold;
+  font-size: large;
+  background: rgb(1, 174, 1);
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15%;
+}
+
+.auction_price {
+  font-weight: bold;
+  font-size: large;
+  display: inline-block;
+  background: rgb(139, 216, 254);
+  padding: 5px 10px;
+  border-radius: 15%;
 }

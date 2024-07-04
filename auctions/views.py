@@ -183,6 +183,12 @@ def place_bid(request, listing_id):
                 amount=bid
             )
             new_bid.save()
+        else:
+            return render(request, "auctions/error.html", {
+                "message": "Bid must be higher than current price.",
+                "code": 400
+            })
+
 
         is_watching = check_watching(request, listing_id)
         return render(request, "auctions/listing.html", {

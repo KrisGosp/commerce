@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Error {{ code }}
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="container bg-light">
+        <h2>Error {{ code }}</h2>
+        <p>{{ message }}</p>
+    </div>
+
+{% endblock %}
