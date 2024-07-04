@@ -1,24 +1,42 @@
-{% extends "auctions/layout.html" %} {% block title %} Watchlist {% endblock %}
+{% extends "auctions/layout.html" %} 
+{% block title %} 
+  <title>Watchlist</title> 
+{% endblock %}
+
 {% block body %}
-<div class="container">
-  <h2>Watchlist</h2>
-  {% if listings %} {% for listing in listings %}
-  <div class="container">
-    <a href="{% url 'listing' listing.id %}">
-      {% if listing.image_url %}
-      <img src="{{ listing.image_url }}" alt="" />
-      {% else %}
-      <img src="https://via.placeholder.com/300x220" alt="" />
+<h2 class="heading">Watchlist</h2>
+<div class="container mt-3">
+  <div class="row">
+    {% for listing in listings %}
+      {% if listing.is_open %}
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <a href="{% url 'listing' listing.id %}">
+            {% if listing.image_url %}
+              <img src="{{ listing.image_url }}" class="card-img-top" alt="..." />
+            {% else %}
+              <img
+                src="https://via.placeholder.com/300x220"
+                class="card-img-top"
+                alt="..."
+            />
+            {% endif %}
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">{{ listing.title }}</h5>
+            <p class="card-text">{{ listing.description }}</p>
+            <p class="current_price">{{ listing.current_price }}</p>
+
+            <form action="{% url 'rm_watchlist' listing.id %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="listing_id" value="{{ listing.id }}" />
+              <input class="btn btn-danger" type="submit" value="Remove from watchlist" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
       {% endif %}
-    </a>
-    <p>{{ listing.title }}</p>
-    <p>{{ listing.current_price }}</p>
-    <form action="{% url 'rm_watchlist' listing.id %}" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="listing_id" value="{{ listing.id }}" />
-      <input type="submit" value="Remove from watchlist" />
-    </form>
-  </div>
-  {% endfor %} {% endif %}
+    {% endfor %}
 </div>
 {% endblock %}
