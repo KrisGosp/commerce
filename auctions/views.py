@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import Listing, User, Watchlist, Bid
+from .models import Listing, User, Watchlist, Bid, Comment
 
 def check_owner_watching(request, listing_id):
     is_owner = False
@@ -195,3 +195,21 @@ def close(request, listing_id):
     listing.is_open = False
     listing.save()
     return redirect("listing", listing_id=listing_id)
+
+def comment(request, listing_id):
+    is_owner, is_watching = check_owner_watching(request, listing_id)
+
+    if request.method == "POST":
+        comment = request.POST["content"]
+        user = request.user
+        new_comment = Comment(
+            user=user,
+            listing=Listing.objects.get(id=listing_id),
+            content=comment
+        )
+        new_comment.save()
+    return render(request, "auctions/listing.html", {
+        "listing": Listing.objects.get(id=listing_id),
+        "is_watching": is_watching,
+        "is_owner": is_owner
+    })
