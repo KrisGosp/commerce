@@ -19,7 +19,7 @@
                 <p>{{ listing.description }}</p>
                 <p>Created at: <span class="text-muted">{{ listing.created_at }}</span></p>
 
-                {% if is_owner %}
+                {% if listing.user == user %}
                     <form action="{% url 'close' listing.id %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" value="Close Listing">
@@ -61,8 +61,9 @@
                         </button>
                     </form>
                 {% endif %}
-                <div class="container mt-5 bg-light">
+                <div class="container mt-5 py-2 bg-light">
                     <h3>Comments</h3>
+                        {% if listing.comments.all %}
                             {% for comment in listing.comments.all %}
                                     <div class="bg-primary rounded-lg px-2 my-2">
                                         <p class="m-0 pb-2">{{ comment.user }}</p>
@@ -72,7 +73,9 @@
                                         </div>
                                     </div>
                             {% endfor %}
-
+                        {% else %}
+                            <p>No comments yet</p>
+                        {% endif %}
                     <form action="{% url 'comment' listing.id %}" method="post">
                         {% csrf_token %}
                         <div class="form-group d-flex">
