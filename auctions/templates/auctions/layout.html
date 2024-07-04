@@ -3,7 +3,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{% block title %}Auctions{% endblock %}</title>
+    
+    {% block title %}
+    <title>Auctions</title>
+    {% endblock %}
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -13,7 +16,7 @@
     <link href="{% static 'auctions/styles.css' %}" rel="stylesheet" />
   </head>
   <body>
-    <h1>Auctions</h1>
+    <h1 class="main_heading my-5">AuctionsBay</h1>
     <div>
       {% if user.is_authenticated %} 
         Signed in as <strong>{{ user.username }}</strong>. 
@@ -23,20 +26,20 @@
     </div>
     <ul class="nav">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+        <a class="nav-link n_link" href="{% url 'index' %}">Active Listings</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'create' %}">Create A Listing</a>
+        <a class="nav-link n_link" href="{% url 'create' %}">Create A Listing</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+        <a class="nav-link n_link" href="{% url 'categories' %}">Categories</a>
       </li>
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+        <a class="nav-link n_link" href="{% url 'watchlist' %}">Watchlist</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+        <a class="nav-link n_link" href="{% url 'logout' %}">Log Out</a>
       </li>
       {% else %}
       <li class="nav-item">

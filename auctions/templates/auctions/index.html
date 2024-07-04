@@ -24,9 +24,9 @@
             <h5 class="card-title">{{ listing.title }}</h5>
             <p class="card-text">{{ listing.description }}</p>
             {% if user == listing.current_winner %}
-              <p class="auction_price_winner">{{ listing.current_price }}</p>
+              <p class="auction_price_winner">{{ listing.current_price }}$</p>
             {% else %}
-              <p class="auction_price">{{ listing.current_price }}</p>
+              <p class="auction_price">{{ listing.current_price }}$</p>
             {% endif %}
             <p class="card-text">
               Created at:

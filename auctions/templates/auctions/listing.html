@@ -32,7 +32,23 @@
             </div>
             
             <div class="col-md-4">
-                <p class="badge badge-success">{{ listing.current_price }}</p>
+
+                <div class="container d-flex justify-content-between align-items-center">
+                    <p class="current_price">{{ listing.current_price }}$</p>
+
+                    <form action="{% url 'watchlist' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                        <button type="submit" class="btn btn-primary my-3">
+                            {% if is_watching %}
+                                Watching
+                            {% else %}
+                                Add To Watchlist
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+
                 {% if user.is_authenticated %}
                     <form action="{% url 'place_bid' listing.id %}" method="post">
                         {% csrf_token %}
@@ -48,17 +64,7 @@
                         <input class="btn btn-success" type="submit" value="Place Bid">
                     </form>
 
-                    <form action="{% url 'watchlist' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                        <button type="submit" class="btn btn-primary mt-5">
-                            {% if listing %}
-                                Watching
-                            {% else %}
-                                Add To Watchlist
-                            {% endif %}
-                        </button>
-                    </form>
+                    
                 {% endif %}
                 <div class="container mt-5 py-2 bg-light">
                     <h3>Comments</h3>
