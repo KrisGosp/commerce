@@ -7,6 +7,15 @@ from django.urls import reverse
 
 from .models import Listing, User, Watchlist, Bid, Comment
 
+CATEGORIES = [
+    "Fashion",
+    "Toys",
+    "Electronics",
+    "Home",
+    "Food",
+    "Hobbies",
+]
+
 def check_watching(request, listing_id):
     is_watching = False
 
@@ -96,7 +105,9 @@ def create_listing(request):
         new_listing.save()
 
         return HttpResponseRedirect(reverse("index"))
-    return render(request, "auctions/create_listing.html")
+    return render(request, "auctions/create_listing.html", {
+        "categories": CATEGORIES
+    })
 
 def listing(request, listing_id):
     # Check if listing belongs to current user in order to show close button
@@ -202,4 +213,9 @@ def comment(request, listing_id):
     return render(request, "auctions/listing.html", {
         "listing": Listing.objects.get(id=listing_id),
         "is_watching": is_watching,
+    })
+
+def categories(request):
+    return render(request, "auctions/categories.html", {
+        "categories": CATEGORIES
     })
