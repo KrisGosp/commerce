@@ -64,7 +64,7 @@
                         {% elif not listing.is_open and listing.current_winner == user %}
                         <p class="text-success font-bold">You have won this auction!</p>
                         {% endif %}
-                        <p class="text-muted font-italic">*Your bid should be at least the current price</p>
+                        <p class="text-muted font-italic">*Your bid should be exceed the current price</p>
                     </form>
                 {% elif user.is_authenticated and not listing.is_open %}
                     {% if listing.current_winner == user %}
