@@ -27,8 +27,16 @@ def check_watching(request, listing_id):
     return is_watching
 
 def index(request):
+    listings = Listing.objects.filter(is_open=True).all()
+    for l in listings:
+        if Bid.objects.filter(listing=l.id).order_by('-amount').first() is not None:
+            l.current_price = Bid.objects.filter(listing=l.id).order_by('-amount').first().amount
+        else:
+            l.current_price = l.current_price
+        l.save()
+
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
+        "listings": listings
     })
 
 
@@ -112,9 +120,14 @@ def create_listing(request):
 def listing(request, listing_id):
     # Check if listing belongs to current user in order to show close button
     is_watching = check_watching(request, listing_id)
+    listing = Listing.objects.get(id=listing_id)
+
+    if Bid.objects.filter(listing=listing).order_by('-amount').first() is not None:
+        listing.current_price = Bid.objects.filter(listing=listing).order_by('-amount').first().amount
+        listing.save()
 
     return render(request, "auctions/listing.html", {
-        "listing": Listing.objects.get(id=listing_id),
+        "listing": listing,
         "is_watching": is_watching,
     })
 
@@ -123,12 +136,6 @@ def watchlist(request):
     if request.method == "POST":
         listing_id = request.POST["listing_id"]
         user_id = request.user.id
-        is_owner = False
-
-        if request.user.id == Listing.objects.get(id=listing_id).user.id:
-            is_owner = True
-        else:
-            is_owner = False
 
         is_watching = Watchlist.objects.filter(user=user_id, listing=listing_id).exists()
         # Adding listing to watchlist
@@ -140,14 +147,12 @@ def watchlist(request):
             watchlist.save()
             return render(request, "auctions/listing.html", {
                 "is_watching": True,
-                "is_owner": is_owner,
                 "listing": Listing.objects.get(id=listing_id),
             })
         else:
             Watchlist.objects.filter(user=user_id, listing=listing_id).delete()
             return render(request, "auctions/listing.html", {
                 "is_watching": False,
-                "is_owner": is_owner,
                 "listing": Listing.objects.get(id=listing_id),
             })
 
