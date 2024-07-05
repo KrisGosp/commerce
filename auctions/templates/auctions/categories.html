@@ -10,7 +10,7 @@
     <div class="container">
         <ul class="list-group">
             {% for category in categories %}
-                <li class="list-item"><a href="{% url 'category' category %}">{{ category }}</a></li>
+                <li class="list-group-item category_li"><a class="category_a" href="{% url 'category' category %}">{{ category }}</a></li>
             {% endfor %}
         </ul>
     </div>

@@ -33,38 +33,45 @@
             
             <div class="col-md-4">
 
-                <div class="container d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center mb-4">
                     <p class="current_price">{{ listing.current_price }}$</p>
 
-                    <form action="{% url 'watchlist' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                        <button type="submit" class="btn btn-primary my-3">
-                            {% if is_watching %}
-                                Watching
-                            {% else %}
-                                Add To Watchlist
-                            {% endif %}
-                        </button>
-                    </form>
+                    {% if user.is_authenticated and listing.is_open %}
+                        <form action="{% url 'watchlist' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                            <button type="submit" class="btn btn-primary my-3">
+                                {% if is_watching %}
+                                    Watching
+                                {% else %}
+                                    Add To Watchlist
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
 
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and listing.is_open %}
                     <form action="{% url 'place_bid' listing.id %}" method="post">
                         {% csrf_token %}
-                        <div class="form-group">
+                        <div class="form-group d-flex">
                             <input class="form-control" type="number" name="bid" placeholder="Bid amount">
-                            {% if listing.is_open and listing.current_winner == user %}
-                                <span class="text-success font-italic">*You are the highest bidder</span>
-                            {% elif not listing.is_open and listing.current_winner == user %}
-                                <p class="text-success font-bold">You have won this auction!</p>
-                            {% endif %}
-                            <p class="text-muted font-italic">*Your bid should be at least the current price</p>
+                            <input class="btn btn-success" type="submit" value="Place Bid">
                         </div>
-                        <input class="btn btn-success" type="submit" value="Place Bid">
+                        
+                        {% if listing.is_open and listing.current_winner == user %}
+                        <span class="text-success font-italic">*You are the highest bidder</span>
+                        {% elif not listing.is_open and listing.current_winner == user %}
+                        <p class="text-success font-bold">You have won this auction!</p>
+                        {% endif %}
+                        <p class="text-muted font-italic">*Your bid should be at least the current price</p>
                     </form>
-
-                    
+                {% elif user.is_authenticated and not listing.is_open %}
+                    {% if listing.current_winner == user %}
+                        <p class="text-success font-bold">You have won this auction!</p>
+                    {% else %}
+                        <p class="text-danger font-bold">You have lost this auction!</p>
+                    {% endif %}
                 {% endif %}
                 <div class="container mt-5 py-2 bg-light">
                     <h3>Comments</h3>

@@ -12,6 +12,11 @@ body {
 .main_heading {
   text-align: center;
 }
+.greeting {
+  margin: 0;
+  font-size: 2rem;
+  padding-left: 20px;
+}
 .n_link {
   color: rgb(130, 3, 90);
   font-weight: bold;
@@ -56,7 +61,21 @@ body {
   font-size: large;
   display: inline-block;
   background: rgb(41, 159, 30);
-  padding: 10px;
+  padding: 5px 30px;
   border-radius: 15%;
   color: white;
+  margin: 0;
+}
+
+/* Categories */
+.category_li {
+  font-size: 1.5rem;
+}
+.category_a {
+  color: rgb(130, 3, 90);
+}
+.category_a:hover {
+  text-decoration: none;
+  color: rgb(70, 2, 125);
+  font-weight: bold;
 }

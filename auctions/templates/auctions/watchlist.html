@@ -25,13 +25,14 @@
           <div class="card-body">
             <h5 class="card-title">{{ listing.title }}</h5>
             <p class="card-text">{{ listing.description }}</p>
-            <p class="current_price">{{ listing.current_price }}</p>
-
-            <form action="{% url 'rm_watchlist' listing.id %}" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="listing_id" value="{{ listing.id }}" />
-              <input class="btn btn-danger" type="submit" value="Remove from watchlist" />
-            </form>
+            <div class="d-flex justify-content-between">
+              <p class="current_price rounded-sm">{{ listing.current_price }}</p>
+              <form action="{% url 'rm_watchlist' listing.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="listing_id" value="{{ listing.id }}" />
+                <input class="btn btn-danger" type="submit" value="Stop watching" />
+              </form>
+            </div>
             
           </div>
         </div>

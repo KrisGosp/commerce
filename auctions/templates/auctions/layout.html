@@ -16,12 +16,12 @@
     <link href="{% static 'auctions/styles.css' %}" rel="stylesheet" />
   </head>
   <body>
-    <h1 class="main_heading my-5">AuctionsBay</h1>
+    <h1 class="main_heading mt-5">AuctionsBay</h1>
     <div>
       {% if user.is_authenticated %} 
-        Signed in as <strong>{{ user.username }}</strong>. 
+        <p class="greeting">Hello, <strong>{{ user.username.capitalize }}</strong>!</p>
       {% else %} 
-        Not signed in. 
+        <p class="greeting">Not signed in.</p> 
       {% endif %}
     </div>
     <ul class="nav">
