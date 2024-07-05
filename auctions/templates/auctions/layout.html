@@ -39,14 +39,17 @@
         <a class="nav-link n_link" href="{% url 'watchlist' %}">Watchlist</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link n_link" href="{% url 'logout' %}">Log Out</a>
+        <a class="nav-link n_link" href="{% url 'closed_listings' %}">Closed Listings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link n_link_auth" href="{% url 'logout' %}">Log Out</a>
       </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+        <a class="nav-link n_link_auth" href="{% url 'login' %}">Log In</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'register' %}">Register</a>
+        <a class="nav-link n_link_auth" href="{% url 'register' %}">Register</a>
       </li>
       {% endif %}
     </ul>

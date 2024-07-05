@@ -231,3 +231,8 @@ def category(request, category):
         "listings": Listing.objects.filter(category=category),
         "category": category
     })
+
+def closed_listings(request):
+    return render(request, "auctions/closed_listings.html", {
+        "listings": Listing.objects.filter(is_open=False)
+    })
